@@ -1,6 +1,7 @@
 package sheepit
 
 import (
+	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"testing"
 )
@@ -10,12 +11,8 @@ func TestNewRepository(t *testing.T) {
 
 	repository := NewRepository(url)
 
-	if repository == nil {
-		t.Error("Expected not nil repository")
-	}
-	if repository.Url != url {
-		t.Errorf("Expected %v, got %v", url, repository.Url)
-	}
+	assert.NotNil(t, repository)
+	assert.Equal(t, url, repository.Url)
 }
 
 func TestGetRepository(t *testing.T) {
@@ -24,14 +21,8 @@ func TestGetRepository(t *testing.T) {
 
 	repository.Retrieve()
 
-	if repository.Path == "" {
-		t.Error("Expected not nil path")
-	}
+	assert.NotEmpty(t, repository.Path)
 	files, _ := ioutil.ReadDir(repository.Path)
-	if len(files) != 2 {
-		t.Error("Expected only one file")
-	}
-	if files[1].Name() != "README" {
-		t.Errorf("Expected to be README, got %v", files[0].Name())
-	}
+	assert.Equal(t, 2, len(files))
+	assert.Equal(t, "README", files[1].Name())
 }
