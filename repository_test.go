@@ -21,9 +21,9 @@ func TestGetRepository(t *testing.T) {
 
 	err := repository.Retrieve()
 
-	assert.NotEmpty(t, repository.Path)
-	files, _ := ioutil.ReadDir(repository.Path)
 	assert.Nil(t, err)
-	assert.Equal(t, 2, len(files))
+	assert.NotEmpty(t, repository.Path())
+	files, _ := ioutil.ReadDir(repository.Path())
+	assert.Equal(t, 3, len(files))
 	assert.Equal(t, "README", files[1].Name())
 }

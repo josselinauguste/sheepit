@@ -6,8 +6,8 @@ import (
 )
 
 type Repository struct {
-	Url string
-	Project
+	Url  string
+	path string
 }
 
 func NewRepository(url string) *Repository {
@@ -25,6 +25,10 @@ func (r *Repository) Retrieve() error {
 	if err != nil {
 		return err
 	}
-	r.Path = path
+	r.path = path
 	return nil
+}
+
+func (r Repository) Path() string {
+	return r.path
 }
