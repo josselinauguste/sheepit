@@ -16,13 +16,14 @@ func TestNewRepository(t *testing.T) {
 }
 
 func TestGetRepository(t *testing.T) {
-	url := createTestGitRepository(t)
+	url := lookupGitRepository("basic_repository")
 	repository := NewRepository(url)
 
-	repository.Retrieve()
+	err := repository.Retrieve()
 
 	assert.NotEmpty(t, repository.Path)
 	files, _ := ioutil.ReadDir(repository.Path)
+	assert.Nil(t, err)
 	assert.Equal(t, 2, len(files))
 	assert.Equal(t, "README", files[1].Name())
 }
