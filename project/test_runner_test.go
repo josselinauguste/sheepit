@@ -6,7 +6,7 @@ import (
 )
 
 func TestRunProjectTests(t *testing.T) {
-	repository := NewRepository(lookupGitRepository("basic_repository"))
+	repository := NewRepository(lookupGitRepository(t, "basic_repository"))
 	repository.Retrieve()
 
 	log, ok := RunTests(*repository)

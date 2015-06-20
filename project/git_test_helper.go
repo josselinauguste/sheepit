@@ -8,41 +8,60 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
+	"testing"
 	"time"
 )
 
-func lookupGitRepository(name string) string {
+func lookupGitRepository(t *testing.T, name string) string {
 	sourcePath := path.Join(lookupRoot(), "fixtures", name)
-	return instantiateGitRepository(sourcePath)
+	return instantiateGitRepository(t, sourcePath)
 }
 
-func instantiateGitRepository(sourcePath string) string {
-	destPath, _ := ioutil.TempDir("", "sheepit_test")
+func instantiateGitRepository(t *testing.T, sourcePath string) string {
+	destPath, err := ioutil.TempDir("", "sheepit_test")
+	if err != nil {
+		t.Error("Can't create git repository instance")
+	}
 	destPath = path.Join(destPath, "repository")
 	shutil.CopyTree(sourcePath, destPath, nil)
-	initGitRepository(destPath)
+	initGitRepository(t, destPath)
 	return destPath
 }
 
-func initGitRepository(path string) {
-	repository, _ := git.InitRepository(path, false)
-	loc, _ := time.LoadLocation("Europe/Berlin")
+func initGitRepository(t *testing.T, path string) {
+	repository, err := git.InitRepository(path, false)
+	if err != nil {
+		t.Error("Can't init git repository")
+	}
+	loc, err := time.LoadLocation("Europe/Berlin")
+	if err != nil {
+		t.Error("Can't load location")
+	}
 	sig := &git.Signature{
 		Name:  "Rand Om Hacker",
 		Email: "random@hacker.com",
 		When:  time.Date(2013, 03, 06, 14, 30, 0, 0, loc),
 	}
 
-	idx, _ := repository.Index()
+	idx, err := repository.Index()
+	if err != nil {
+		t.Error("Can't index git repository")
+	}
 	_ =
 		filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
 			idx.AddByPath(info.Name())
 			return nil
 		})
-	treeId, _ := idx.WriteTree()
+	treeId, err := idx.WriteTree()
+	if err != nil {
+		t.Error("Can't write tree")
+	}
 
 	message := "Commit\n"
-	tree, _ := repository.LookupTree(treeId)
+	tree, err := repository.LookupTree(treeId)
+	if err != nil {
+		t.Error("Can't lookup tree")
+	}
 	repository.CreateCommit("HEAD", sig, sig, message, tree)
 }
 

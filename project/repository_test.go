@@ -16,7 +16,7 @@ func TestNewRepository(t *testing.T) {
 }
 
 func TestGetRepository(t *testing.T) {
-	url := lookupGitRepository("basic_repository")
+	url := lookupGitRepository(t, "basic_repository")
 	repository := NewRepository(url)
 
 	err := repository.Retrieve()
