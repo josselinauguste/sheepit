@@ -1,18 +1,19 @@
 package sheepit
 
 import (
+	"errors"
 	"os"
 	"os/exec"
 	"path"
 )
 
-func RunTests(project Project) ([]byte, bool) {
+func RunTests(project Project) ([]byte, bool, error) {
 	command := getRunnerCommand(project.Path())
-	output, err := command.Output()
-	if err != nil {
-		return output, false
+	if command == nil {
+		return nil, false, errors.New("Can't find a valid command to run tests")
 	}
-	return output, true
+	output, err := command.Output()
+	return output, err == nil, nil
 }
 
 func getRunnerCommand(projectPath string) *exec.Cmd {
@@ -22,6 +23,8 @@ func getRunnerCommand(projectPath string) *exec.Cmd {
 	} else if _, err := os.Stat(path.Join(projectPath, "Rakefile")); err == nil {
 		command = exec.Command("rake", "test")
 	}
-	command.Dir = projectPath
+	if command != nil {
+		command.Dir = projectPath
+	}
 	return command
 }
