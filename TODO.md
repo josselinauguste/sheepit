@@ -2,7 +2,11 @@
 
 1. Intégration continue (http://www.synbioz.com/blog/rugged_gem_git)
 2. Push to deploy
-3. Pipeline de déploiement
+3. Pipeline de déploiement (https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern)
+
+## Features
+
+- support RCov
 
 ## Initialisation
 

@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+//TODO instantiate only once always in the same directory
+
 func lookupGitRepository(t *testing.T, name string) string {
 	sourcePath := path.Join(lookupRoot(), "fixtures", name)
 	return instantiateGitRepository(t, sourcePath)
