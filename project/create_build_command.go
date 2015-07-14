@@ -18,7 +18,7 @@ func NewCreateBuildCommand(url string) *CreateBuildCommand {
 	return &CreateBuildCommand{url}
 }
 
-func (command CreateBuildCommand) execute() error {
+func (command CreateBuildCommand) Execute() error {
 	repository := NewRepository(command.url)
 	err := repository.Retrieve()
 	if err != nil {

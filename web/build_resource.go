@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/josselinauguste/magicbus"
 	"github.com/josselinauguste/sheepit/project"
 )
 
 type buildResource struct {
-	bus sheepit.Bus
+	bus magicbus.Bus
 }
 
 type createBuild struct {
@@ -20,7 +21,7 @@ type buildCreated struct {
 	Output  string
 }
 
-func newBuildResource(bus sheepit.Bus) *buildResource {
+func newBuildResource(bus magicbus.Bus) *buildResource {
 	return &buildResource{bus}
 }
 

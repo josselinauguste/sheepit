@@ -5,13 +5,13 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/josselinauguste/sheepit/project"
+	"github.com/josselinauguste/magicbus"
 )
 
 const port = 8080
 
 func main() {
-	bus := sheepit.NewSynchronousBus()
+	bus := magicbus.NewSynchronousBus()
 	buildResource := newBuildResource(bus)
 
 	r := mux.NewRouter().StrictSlash(false)

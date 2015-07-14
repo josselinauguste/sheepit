@@ -5,7 +5,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/josselinauguste/magicbus"
 	"github.com/josselinauguste/sheepit/project"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -14,7 +16,7 @@ type FakeBus struct {
 	mock.Mock
 }
 
-func (m *FakeBus) Send(command sheepit.Command) error {
+func (m *FakeBus) Send(command magicbus.Command) error {
 	m.Called(command)
 	return nil
 }
